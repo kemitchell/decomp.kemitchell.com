@@ -272,6 +272,15 @@ var parts = [
     note: 'Allow contributors to decline credit for specific uses.'
   },
   {
+    heading: 'Credit Forgiveness',
+    text: [
+      'If anyone notifies you in writing that you have not complied with Credit, you can keep your license by taking all practical steps to comply within 30 days after the notice.',
+      'If you do not do so, your license ends immediately.'
+    ].join(SENTENCE_SEPARATOR),
+    needs: ['Credit'],
+    note: 'Provide an out for credit violations.'
+  },
+  {
     heading: 'Disclaimer',
     conspicuous: true,
     text: 'As far as the law allows, this software comes as is, without any warranty or condition.',
