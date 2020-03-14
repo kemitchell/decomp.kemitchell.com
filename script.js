@@ -61,6 +61,10 @@ function addForm () {
     if (part.common) {
       label.appendChild(document.createTextNode(' (common)'))
     }
+    if (part.needs.length > 0) {
+      var list = part.needs.join(', ')
+      label.appendChild(document.createTextNode(' (needs ' + list + ')'))
+    }
     form.appendChild(labelP)
     if (part.note) {
       var noteP = document.createElement('p')
