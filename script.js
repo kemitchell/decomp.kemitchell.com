@@ -232,10 +232,16 @@ var parts = [
     note: 'Require copies of the license with copies of the software.'
   },
   {
-    heading: 'Notice Forgiveness',
-    text: noticeBasedForgiveness('Notice'),
+    heading: 'Notice Forgiveness On Warning',
+    conflicts: ['Notice Forgiveness On Discovery'],
     needs: ['Notice'],
-    note: 'Provide an out for notice violations.'
+    text: forgivenessOnWarning('Notice')
+  },
+  {
+    heading: 'Notice Forgiveness On Discovery',
+    needs: ['Notice'],
+    conflicts: ['Notice Forgiveness On Warning'],
+    text: forgivenessOnDiscovery('Notice')
   },
   {
     heading: 'Credit',
@@ -269,9 +275,17 @@ var parts = [
     note: 'Allow contributors to decline credit for specific uses.'
   },
   {
-    heading: 'Credit Forgiveness',
-    text: noticeBasedForgiveness('Credit'),
+    heading: 'Credit Forgiveness On Warning',
     needs: ['Credit'],
+    conflicts: ['Credit Forgiveness On Discovery'],
+    text: forgivenessOnWarning('Credit'),
+    note: 'Provide an out for credit violations.'
+  },
+  {
+    heading: 'Credit Forgiveness On Discovery',
+    needs: ['Credit'],
+    conflicts: ['Credit Forgiveness On Warning'],
+    text: forgivenessOnDiscovery('Credit'),
     note: 'Provide an out for credit violations.'
   },
   {
@@ -328,9 +342,16 @@ var parts = [
     note: 'Allow reverse engineering software that can\'t be shared alike.'
   },
   {
-    heading: 'Copyleft Forgiveness',
+    heading: 'Copyleft Forgiveness On Warning',
     needs: ['Copyleft'],
-    text: noticeBasedForgiveness('Copyleft')
+    conflicts: ['Copyleft Forgiveness On Discovery'],
+    text: forgivenessOnWarning('Copyleft')
+  },
+  {
+    heading: 'Copyleft Forgiveness On Discovery',
+    needs: ['Copyleft'],
+    conflicts: ['Copyleft Forgiveness On Warning'],
+    text: forgivenessOnDiscovery('Copyleft')
   },
   {
     heading: 'Patent Defense',
@@ -354,7 +375,7 @@ var parts = [
   }
 ]
 
-function noticeBasedForgiveness (heading) {
+function forgivenessOnWarning (heading) {
   return [
     'If anyone notifies you in writing ' +
     'that you have not complied with ' +
@@ -363,6 +384,16 @@ function noticeBasedForgiveness (heading) {
     'by taking all practical steps to comply ' +
     'within 30 days after the notice.',
     'If you do not do so, your license ends immediately.'
+  ].join(SENTENCE_SEPARATOR)
+}
+
+function forgivenessOnDiscovery (heading) {
+  return [
+    'You\'re excused for unknowingly breaking ' +
+    heading + ' ' +
+    'if you come into compliance, ' +
+    'or stop doing anything requiring this license, ' +
+    'within thirty days of learning you broke the rule.'
   ].join(SENTENCE_SEPARATOR)
 }
 
