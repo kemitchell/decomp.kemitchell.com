@@ -32,14 +32,12 @@ function addUI () {
   addLicense()
 }
 
-var form
-
 function addForm () {
   var h2 = document.createElement('h2')
   h2.appendChild(document.createTextNode('Options'))
   main.appendChild(h2)
 
-  form = document.createElement('form')
+  var form = document.createElement('form')
   form.id = 'form'
   form.addEventListener('input', onInput)
   parts.forEach(function (part) {
