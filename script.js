@@ -336,15 +336,13 @@ function renderLicense () {
   }
 
   function renderCommonMark () {
-    var text = [
+    commonmark.innerText = [
       '# ' + TITLE,
       '<' + URL + '>',
       'Version: ' + VERSION,
       contents(),
       body()
     ].join('\n\n')
-
-    commonmark.innerText = text
 
     function contents () {
       return 'Contents:\n' + selected
