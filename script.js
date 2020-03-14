@@ -243,10 +243,37 @@ var parts = [
   }
 ]
 
+// Add empty array properties.
 parts.forEach(function (part) {
   if (!part.needs) part.needs = []
   if (!part.conflicts) part.conflicts = []
 })
+
+// Validate needs and conflicts.
+parts.forEach(function (part) {
+  part.needs.forEach(function (heading) {
+    if (!isValidHeading(heading)) {
+      throw new Error(
+        'Invalid heading "' + heading + '"' +
+        ' in ' + part.heading + ' needs.'
+      )
+    }
+  })
+  part.conflicts.forEach(function (heading) {
+    if (!isValidHeading(heading)) {
+      throw new Error(
+        'Invalid heading "' + heading + '"' +
+        ' in ' + part.heading + ' conflicts.'
+      )
+    }
+  })
+})
+
+function isValidHeading (heading) {
+  return parts.some(function (part) {
+    return part.heading === heading
+  })
+}
 
 var TITLE = 'Sythesized License'
 
