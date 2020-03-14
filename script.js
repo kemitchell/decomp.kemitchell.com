@@ -233,10 +233,7 @@ var parts = [
   },
   {
     heading: 'Notice Forgiveness',
-    text: [
-      'If anyone notifies you in writing that you have not complied with Notices, you can keep your license by taking all practical steps to comply within 30 days after the notice.',
-      'If you do not do so, your license ends immediately.'
-    ].join(SENTENCE_SEPARATOR),
+    text: noticeBasedForgiveness('Notice'),
     needs: ['Notice'],
     note: 'Provide an out for notice violations.'
   },
@@ -273,10 +270,7 @@ var parts = [
   },
   {
     heading: 'Credit Forgiveness',
-    text: [
-      'If anyone notifies you in writing that you have not complied with Credit, you can keep your license by taking all practical steps to comply within 30 days after the notice.',
-      'If you do not do so, your license ends immediately.'
-    ].join(SENTENCE_SEPARATOR),
+    text: noticeBasedForgiveness('Credit'),
     needs: ['Credit'],
     note: 'Provide an out for credit violations.'
   },
@@ -336,10 +330,7 @@ var parts = [
   {
     heading: 'Copyleft Forgiveness',
     needs: ['Copyleft'],
-    text: [
-      'If anyone notifies you in writing that you have not complied with Copyleft, you can keep your license by sharing as quired, or stopping doing anything requiring this license, within 30 days after the notice.',
-      'If you do not do so, your license ends immediately.'
-    ].join(SENTENCE_SEPARATOR)
+    text: noticeBasedForgiveness('Copyleft')
   },
   {
     heading: 'Patent Defense',
@@ -362,6 +353,18 @@ var parts = [
     hint: 'Strongly consider selecting Notices, as well.'
   }
 ]
+
+function noticeBasedForgiveness (heading) {
+  return [
+    'If anyone notifies you in writing ' +
+    'that you have not complied with ' +
+    heading + ', ' +
+    'you can keep your license ' +
+    'by taking all practical steps to comply ' +
+    'within 30 days after the notice.',
+    'If you do not do so, your license ends immediately.'
+  ].join(SENTENCE_SEPARATOR)
+}
 
 // Add empty array properties.
 parts.forEach(function (part) {
