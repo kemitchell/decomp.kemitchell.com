@@ -243,9 +243,9 @@ var parts = [
   }
 ]
 
-parts.forEach(function (parts) {
-  if (!parts.needs) parts.needs = []
-  if (!parts.conflicts) parts.conflicts = []
+parts.forEach(function (part) {
+  if (!part.needs) parts.needs = []
+  if (!part.conflicts) parts.conflicts = []
 })
 
 var TITLE = 'Sythesized License'
