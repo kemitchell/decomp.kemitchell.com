@@ -424,16 +424,13 @@ function renderLicense () {
     fragment.appendChild(version)
 
     var contentsP = document.createElement('p')
-    contentsP.appendChild(textNode('Contents:'))
+    var list = selected
+      .map(function (part) {
+        return part.heading
+      })
+      .join(', ')
+    contentsP.appendChild(textNode('Contents: ' + list))
     fragment.appendChild(contentsP)
-
-    var ol = document.createElement('ol')
-    selected.forEach(function (part) {
-      var li = document.createElement('li')
-      li.appendChild(textNode(part.heading))
-      fragment.appendChild(li)
-    })
-    fragment.appendChild(ol)
 
     selected.forEach(function (part) {
       var section = document.createElement('section')
@@ -517,11 +514,11 @@ function renderLicense () {
     ].join('\n\n')
 
     function contents () {
-      return 'Contents:\n' + selected
+      return 'Contents: ' + selected
         .map(function (part) {
-          return '- ' + part.heading
+          return part.heading
         })
-        .join('\n')
+        .join(', ')
     }
 
     function body () {
