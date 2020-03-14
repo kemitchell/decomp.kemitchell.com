@@ -1,4 +1,3 @@
 #!/bin/sh
-set -x
 SITE=synth.kemitchell.com
 rsync -4 --exclude .git -a --delete ./ "$SITE:/var/www/$SITE/"
