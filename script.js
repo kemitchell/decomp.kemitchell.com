@@ -346,24 +346,24 @@ function renderLicense () {
     fragment.appendChild(url)
 
     var version = document.createElement('p')
-    version.appendChild(document.createTextNode('Version: ' + VERSION))
+    version.appendChild(textNode('Version: ' + VERSION))
     fragment.appendChild(version)
 
     var contentsP = document.createElement('p')
-    contentsP.appendChild(document.createTextNode('Contents:'))
+    contentsP.appendChild(textNode('Contents:'))
     fragment.appendChild(contentsP)
 
     var ol = document.createElement('ol')
     selected.forEach(function (part) {
       var li = document.createElement('li')
-      li.appendChild(document.createTextNode(part.heading))
+      li.appendChild(textNode(part.heading))
       fragment.appendChild(li)
     })
     fragment.appendChild(ol)
 
     selected.forEach(function (part) {
       var h2 = document.createElement('h2')
-      h2.appendChild(document.createTextNode(part.heading))
+      h2.appendChild(textNode(part.heading))
       fragment.appendChild(h2)
 
       var p = document.createElement('p')
@@ -374,7 +374,7 @@ function renderLicense () {
       if (Array.isArray(part.text)) {
         part.text.forEach(function (element) {
           if (typeof element === 'string') {
-            p.appendChild(document.createTextNode(element))
+            p.appendChild(textNode(element))
           } else if (element.code) {
             var code = document.createElement('code')
             code.appendChild(document.createTextNode(element.code))
@@ -389,13 +389,21 @@ function renderLicense () {
           }
         })
       } else {
-        p.appendChild(document.createTextNode(part.text))
+        p.appendChild(textNode(part.text))
       }
       fragment.appendChild(p)
     })
 
     blockquote.innerHTML = ''
     blockquote.appendChild(fragment)
+  }
+
+  function textNode (text) {
+    return document.createTextNode(smarten(text))
+  }
+
+  function smarten (string) {
+    return string.replace(/'/g, '’')
   }
 
   function renderCommonMark () {
