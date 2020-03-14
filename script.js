@@ -228,6 +228,34 @@ var parts = [
     note: 'Provide an out for notice violations.'
   },
   {
+    heading: 'Credit',
+    text: [
+      'You must give this software and each contributor credit for contribution to other work, be they goods or services, that you produce or provide using this software.',
+      'In general, you must give credit in such a way that the audience for your work can freely and readily find a written notice identifying this software, by name, as a contribution to your work, as well as each contributor, by name, as a contributor to this software.  You must not do anything to stop the audience for your work from sharing, publishing, or using credits.'
+    ].join('  ')
+  },
+  {
+    heading: 'Credit Conventions',
+    needs: ['Credit'],
+    text: [
+      'If widespread convention dictates a particular way to give credit for your kind of work, such as by end credit, citation, acknowledgment, or billing, then follow that convention.',
+      'For software provided in copies to run or install, give credit in documentation and notice files.',
+      'For software provided as a web service, give credits in ',
+      { code: 'credits.txt' },
+      ', according to ',
+      { url: 'https://creditstxt.com' },
+      '.'
+    ]
+  },
+  {
+    heading: 'Right to Decline Credit',
+    needs: ['Credit'],
+    text: [
+      'On written request from a contributor, you must remove their name from any credits you make available for work they do not want to be associated with going forward.',
+      'On written request from all contributors to this software, you must do the same for the name of this software.'
+    ].join('  ')
+  },
+  {
     heading: 'Disclaimer',
     conspicuous: true,
     text: 'As far as the law allows, this software comes as is, without any warranty or condition.',
@@ -327,7 +355,26 @@ function renderLicense () {
         p.className = 'conspicuous'
         p.style = 'font-weight: bold; font-style: italic;'
       }
-      p.appendChild(document.createTextNode(part.text))
+      if (Array.isArray(part.text)) {
+        part.text.forEach(function (element) {
+          if (typeof element === 'string') {
+            p.appendChild(document.createTextNode(element))
+          } else if (element.code) {
+            var code = document.createElement('code')
+            code.appendChild(document.createTextNode(element.code))
+            p.appendChild(code)
+          } else if (element.url) {
+            var a = document.createElement('a')
+            a.href = element.url
+            a.appendChild(document.createTextNode(element.url))
+            p.appendChild(a)
+          } else {
+            throw new Error('invalid text element: ' + JSON.stringify(element))
+          }
+        })
+      } else {
+        p.appendChild(document.createTextNode(part.text))
+      }
       fragment.appendChild(p)
     })
 
@@ -356,10 +403,26 @@ function renderLicense () {
       return selected
         .map(function (part) {
           var text = '## ' + part.heading + '\n\n'
-          if (part.conspicuous) {
-            text += '***' + part.text + '***'
+          var body
+          if (Array.isArray(part.text)) {
+            body = part.text
+              .map(function (element) {
+                if (typeof element === 'string') {
+                  return element
+                } else if (element.code) {
+                  return '`' + element.code + '`'
+                } else if (element.url) {
+                  return '<' + element.url + '>'
+                }
+              })
+              .join('')
           } else {
-            text += part.text
+            body = part.text
+          }
+          if (part.conspicuous) {
+            text += '***' + body + '***'
+          } else {
+            text += body
           }
           return text
         })
