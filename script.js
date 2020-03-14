@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   main = document.getElementById('main')
   addVersion()
   removeNoscripts()
+  selectCommonParts()
   addUI()
   renderLicense()
 })
@@ -24,6 +25,13 @@ function removeNoscripts () {
     var element = elements[index]
     element.parentNode.removeChild(element)
   }
+}
+
+function selectCommonParts () {
+  parts.forEach(function (part) {
+    if (part.required) return
+    if (part.common) selections[part.heading] = true
+  })
 }
 
 function addUI () {
@@ -49,6 +57,9 @@ function addForm () {
     if (part.required) {
       input.checked = true
       input.disabled = true
+    }
+    if (selections[part.heading]) {
+      input.checked = true
     }
     labelP.appendChild(label)
     label.appendChild(input)
