@@ -339,7 +339,7 @@ function renderLicense () {
 
   function renderCommonMark () {
     var text = [
-      title(),
+      '# ' + TITLE,
       '<' + URL + '>',
       'Version: ' + VERSION,
       contents(),
@@ -347,10 +347,6 @@ function renderLicense () {
     ].join('\n\n')
 
     commonmark.innerText = text
-
-    function title () {
-      return '# ' + TITLE
-    }
 
     function contents () {
       return 'Contents:\n' + selected
