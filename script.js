@@ -188,7 +188,11 @@ var selections = {}
 var parts = [
   {
     heading: 'Acceptance',
-    text: 'In order to receive this license, you must agree to its rules.  The rules of this license are both obligations under that agreement and conditions to your license.  You must not do anything with this software that triggers a rule that you cannot or will not follow.',
+    text: [
+      'In order to receive this license, you must agree to its rules.',
+      'The rules of this license are both obligations under that agreement and conditions to your license.',
+      'You must not do anything with this software that triggers a rule that you cannot or will not follow.'
+    ].join('  '),
     required: true
   },
   {
@@ -214,7 +218,10 @@ var parts = [
   },
   {
     heading: 'Notice Forgiveness',
-    text: 'If anyone notifies you in writing that you have not complied with Notices, you can keep your license by taking all practical steps to comply within 30 days after the notice.  If you do not do so, your license ends immediately.',
+    text: [
+      'If anyone notifies you in writing that you have not complied with Notices, you can keep your license by taking all practical steps to comply within 30 days after the notice.',
+      'If you do not do so, your license ends immediately.'
+    ].join('  '),
     needs: ['Notice'],
     note: 'Provide an out for notice violations.'
   },
