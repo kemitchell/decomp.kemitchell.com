@@ -139,6 +139,7 @@ var blockquote, commonmark
 
 function addLicense () {
   addH2()
+  addCopyButton()
   addHTML()
   addCommonMark()
 
@@ -146,6 +147,20 @@ function addLicense () {
     var h2 = document.createElement('h2')
     h2.appendChild(document.createTextNode('License Text'))
     main.appendChild(h2)
+  }
+
+  function addCopyButton () {
+    if (navigator.clipboard) {
+      var button = document.createElement('button')
+      button.appendChild(document.createTextNode('Copy CommonMark to Clipboard'))
+      button.addEventListener('click', function () {
+        navigator.clipboard.writeText(commonmark.innerText + '\n')
+          .then(function () {
+            window.alert('Copied!')
+          })
+      })
+      main.appendChild(button)
+    }
   }
 
   function addHTML () {
@@ -161,6 +176,7 @@ function addLicense () {
     var h3 = document.createElement('h3')
     h3.appendChild(document.createTextNode('CommonMark'))
     main.appendChild(h3)
+
     commonmark = document.createElement('pre')
     commonmark.id = 'commonmark'
     main.appendChild(commonmark)
