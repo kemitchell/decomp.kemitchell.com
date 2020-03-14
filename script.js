@@ -187,6 +187,8 @@ function addLicense () {
 
 var selections = {}
 
+var SENTENCE_SEPARATOR = '  '
+
 var parts = [
   {
     heading: 'Acceptance',
@@ -194,7 +196,7 @@ var parts = [
       'In order to receive this license, you must agree to its rules.',
       'The rules of this license are both obligations under that agreement and conditions to your license.',
       'You must not do anything with this software that triggers a rule that you cannot or will not follow.'
-    ].join('  '),
+    ].join(SENTENCE_SEPARATOR),
     required: true
   },
   {
@@ -223,7 +225,7 @@ var parts = [
     text: [
       'If anyone notifies you in writing that you have not complied with Notices, you can keep your license by taking all practical steps to comply within 30 days after the notice.',
       'If you do not do so, your license ends immediately.'
-    ].join('  '),
+    ].join(SENTENCE_SEPARATOR),
     needs: ['Notice'],
     note: 'Provide an out for notice violations.'
   },
@@ -232,7 +234,7 @@ var parts = [
     text: [
       'You must give this software and each contributor credit for contribution to other work, be they goods or services, that you produce or provide using this software.',
       'In general, you must give credit in such a way that the audience for your work can freely and readily find a written notice identifying this software, by name, as a contribution to your work, as well as each contributor, by name, as a contributor to this software.  You must not do anything to stop the audience for your work from sharing, publishing, or using credits.'
-    ].join('  ')
+    ].join(SENTENCE_SEPARATOR)
   },
   {
     heading: 'Credit Conventions',
@@ -253,7 +255,7 @@ var parts = [
     text: [
       'On written request from a contributor, you must remove their name from any credits you make available for work they do not want to be associated with going forward.',
       'On written request from all contributors to this software, you must do the same for the name of this software.'
-    ].join('  ')
+    ].join(SENTENCE_SEPARATOR)
   },
   {
     heading: 'Disclaimer',
