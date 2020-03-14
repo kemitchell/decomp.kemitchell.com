@@ -281,6 +281,71 @@ var parts = [
     note: 'Provide an out for credit violations.'
   },
   {
+    heading: 'Copyleft',
+    text: 'Share software you develop, operate, or analyze with this software, including chagnes or additions to this software.',
+    note: 'Require those who use your software to make other software to share their work alike.'
+  },
+  {
+    heading: 'Share Publicly',
+    needs: ['Copyleft'],
+    text: [
+      'To share software:',
+      {
+        list: [
+          'Publish all source code for the software in the preferred form for making changes through a freely accessible distribution system widely used for similar source code so the contributor and others can find and copy it.',
+          'Make sure every part of the source code is available under this license or another license that allows everything this license does.',
+          'Take these steps within thirty days.'
+        ]
+      },
+      'That is all.'
+    ],
+    note: 'Require sharing by publishing code.'
+  },
+  {
+    heading: 'Prototypes Exception',
+    needs: ['Copyleft'],
+    text: [
+      'You don\'t have to share any change, addition, or other software that meets all these criteria:',
+      {
+        list: [
+          'You don\'t use it for more than thirty days.',
+          'You don\'t share it outside the team developing it, other than for non-production user testing.',
+          'You don\'t develop, operate, or analyze other software with it for anyone outside the team developing it.'
+        ]
+      }
+    ],
+    note: 'Allow reverse engineering software that can\'t be shared alike.'
+  },
+  {
+    heading: 'Applications Exception',
+    needs: ['Copyleft'],
+    text: [
+      'You need not share any software that only invokes this software\'s functionality through the interfaces this software exposes, without exposing this software\'s interfaces or functionality to users or other software to such an extent that it becomes a practical substitute for this software.',
+      'Interfaces exposed by this software include all the interfaces this software provides users or other software to invoke its functionality, such as command line, graphical, application programming, remote procedure call, and inter-process communication interfaces.'
+    ],
+    note: 'Allow creating applications without sharing back.'
+  },
+  {
+    heading: 'Reverse Engineering Exception',
+    needs: ['Copyleft'],
+    text: [
+      'You may use this software to operate and analyze software you can\'t share in order to to develop alternatives you can and do share.'
+    ],
+    note: 'Allow reverse engineering software that can\'t be shared alike.'
+  },
+  {
+    heading: 'Copyleft Forgiveness',
+    needs: ['Copyleft'],
+    text: [
+      'If anyone notifies you in writing that you have not complied with Copyleft, you can keep your license by sharing as quired, or stopping doing anything requiring this license, within 30 days after the notice.',
+      'If you do not do so, your license ends immediately.'
+    ].join(SENTENCE_SEPARATOR)
+  },
+  {
+    heading: 'Patent Defense',
+    text: 'Don\'t make any legal claim against anyone accusing this software, with or without changes, alone or with other technology, of infringing any patent.'
+  },
+  {
     heading: 'Disclaimer',
     conspicuous: true,
     text: 'As far as the law allows, this software comes as is, without any warranty or condition.',
@@ -371,36 +436,63 @@ function renderLicense () {
     fragment.appendChild(ol)
 
     selected.forEach(function (part) {
+      var section = document.createElement('section')
+      if (part.conspicuous) {
+        section.className = 'conspicuous'
+        section.style = 'font-weight: bold; font-style: italic;'
+      }
+      fragment.appendChild(section)
+
       var h2 = document.createElement('h2')
       h2.appendChild(textNode(part.heading))
-      fragment.appendChild(h2)
+      section.appendChild(h2)
 
       var p = document.createElement('p')
-      if (part.conspicuous) {
-        p.className = 'conspicuous'
-        p.style = 'font-weight: bold; font-style: italic;'
-      }
+      var appendedP = false
       if (Array.isArray(part.text)) {
-        part.text.forEach(function (element) {
+        part.text.forEach(function (element, elementIndex) {
           if (typeof element === 'string') {
             p.appendChild(textNode(element))
+            appendParagraph()
           } else if (element.code) {
             var code = document.createElement('code')
             code.appendChild(document.createTextNode(element.code))
             p.appendChild(code)
+            appendParagraph()
           } else if (element.url) {
             var a = document.createElement('a')
             a.href = element.url
             a.appendChild(document.createTextNode(element.url))
             p.appendChild(a)
+            appendParagraph()
+          } else if (element.list) {
+            var ol = document.createElement('ol')
+            element.list.forEach(function (listElement) {
+              var li = document.createElement('li')
+              ol.appendChild(li)
+              var liP = document.createElement('p')
+              li.appendChild(liP)
+              liP.appendChild(textNode(listElement))
+            })
+            section.appendChild(ol)
+            if (elementIndex < part.text.length) {
+              p = document.createElement('p')
+              appendedP = false
+            }
           } else {
             throw new Error('invalid text element: ' + JSON.stringify(element))
           }
         })
       } else {
         p.appendChild(textNode(part.text))
+        appendParagraph()
       }
-      fragment.appendChild(p)
+
+      function appendParagraph () {
+        if (appendedP) return
+        section.appendChild(p)
+        appendedP = true
+      }
     })
 
     blockquote.innerHTML = ''
@@ -446,6 +538,12 @@ function renderLicense () {
                   return '`' + element.code + '`'
                 } else if (element.url) {
                   return '<' + element.url + '>'
+                } else if (element.list) {
+                  return element.list
+                    .map(function (element, index) {
+                      return '' + (index + 1) + '.  ' + element
+                    })
+                    .join('\n\n')
                 }
               })
               .join('')

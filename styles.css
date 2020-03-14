@@ -13,3 +13,8 @@ input[type=checkbox] {
   padding: 0.8rem;
   border: none;
 }
+
+section {
+  margin: 0;
+  padding: 0;
+}
