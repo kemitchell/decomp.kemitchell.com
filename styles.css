@@ -1,0 +1,15 @@
+input[type=checkbox] {
+  margin-right: 1ex;
+}
+
+#commonmark {
+  white-space: pre-wrap;
+}
+
+.warning {
+  color: white;
+  background-color: #dc3545;
+  border-radius: 0.25rem;
+  padding: 0.8rem;
+  border: none;
+}
